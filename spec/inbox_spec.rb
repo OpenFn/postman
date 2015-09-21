@@ -10,6 +10,7 @@ describe Inbox do
 
     let(:mapping) { {id: "__UUID__"} }
     let(:body) { "__POST_BODY__" }
+    let(:receipt) { {id: "__RECEIPT_UUID__"} }
 
     context 'with valid mapping uuid' do
 
@@ -19,8 +20,8 @@ describe Inbox do
         expect(ReceiptRecord).to receive(:create).with({
           mapping_id: mapping[:id],
           body: body
-        })
-        post "/inbox/#{mapping[:id]}", body
+        }).and_return receipt
+        post "/#{mapping[:id]}", body
         expect(last_response.status).to eql 202
       end
       
@@ -33,7 +34,7 @@ describe Inbox do
           and_return nil
         expect(ReceiptRecord).to_not receive(:create)
 
-        post "/inbox/#{mapping[:id]}", body
+        post "/#{mapping[:id]}", body
 
         expect(last_response.status).to eql 404
       end

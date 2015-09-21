@@ -16,7 +16,7 @@ describe Receipts do
         expect(ReceiptRecord).to receive(:[]).with(id: receipt[:id]).
           and_return receipt
 
-        get "/receipts/#{receipt[:id]}"
+        get "/#{receipt[:id]}"
         expect(last_response.status).to eql 200
         expect(last_response.body).to eql receipt[:body]
       end
@@ -29,7 +29,7 @@ describe Receipts do
         expect(ReceiptRecord).to receive(:[]).with(id: receipt[:id]).
           and_return nil
 
-        get "/receipts/#{receipt[:id]}"
+        get "/#{receipt[:id]}"
 
         expect(last_response.status).to eql 404
       end
