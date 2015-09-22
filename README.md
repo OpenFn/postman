@@ -85,3 +85,15 @@ Running Migrations
 `$ sequel -m db/migrations -M x $DATABASE_URL`  
 *`x` being the 'latest' migration number to keep*  
 
+**Heroku**
+
+Heroku provides a neat API for getting environment variables, in order to
+run migrations you can replace `$DATABASE_URL` for single use cases like this:
+
+```sh
+( export `heroku config:get DATABASE_URL --shell` && \
+  sequel -m db/migrations $DATABASE_URL )
+```
+
+By wrapping the commands in parentheses you can avoid changing you can avoid
+polluting you local shell.
