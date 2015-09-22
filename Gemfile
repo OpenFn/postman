@@ -5,6 +5,7 @@ gem "sequel"
 gem "pg"
 gem "roda"
 gem "puma"
+gem "faraday"
 
 group :development, :test do
   gem "pry-byebug"
