@@ -21,6 +21,7 @@ describe Mappings do
       it 'creates a new mapping' do
         expect(MappingRecord).to receive(:create).with(params).
           and_return(mapping)
+        expect(mapping).to receive(:values).and_return(mapping)
 
         post "/", params.to_json
 

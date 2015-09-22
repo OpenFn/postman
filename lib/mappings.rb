@@ -13,7 +13,7 @@ class Mappings < Roda
       begin
         @mapping = MappingRecord.create(params)
         response.status = 201
-        @mapping.to_json
+        @mapping.values.to_json
       rescue Sequel::NotNullConstraintViolation
         response.status = 406
       end
