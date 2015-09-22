@@ -3,6 +3,7 @@ source "https://rubygems.org"
 gem "sequel"
 gem "pg"
 gem "roda"
+gem "puma"
 
 group :development, :test do
   gem "pry-byebug"

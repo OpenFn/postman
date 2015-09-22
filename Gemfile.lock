@@ -39,6 +39,7 @@ GEM
     pry-byebug (3.2.0)
       byebug (~> 5.0)
       pry (~> 0.10)
+    puma (2.14.0)
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -74,6 +75,7 @@ DEPENDENCIES
   guard-rspec
   pg
   pry-byebug
+  puma
   rack-test
   roda
   rspec
