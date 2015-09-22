@@ -31,6 +31,21 @@ API
   - `404` Mapping not found.
   - `201` Success. Submission was created.
 
+* `POST /mappings`
+  
+  Create a new Mapping
+
+  Example Body:
+
+  ```json
+  { "title": "My First Mapping" }
+  ```
+
+  **Responses**
+
+  - `406` Not valid.
+  - `201` Success. Mapping was created.
+
 Setting up
 ----------
 
