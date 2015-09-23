@@ -20,6 +20,14 @@ shared_examples "Mapping Commands" do
     it { is_expected.to eql document.to_json }
   end
 
+  context 'destination_configuration' do
+    let(:attributes) { {destination_configuration: document} }
+    let(:document) { {a: 1, b: 2} }
+
+    subject { command_object.destination_configuration }
+    it { is_expected.to eql document.to_json }
+  end
+
 end
 
 describe UpdateMappingCommand do

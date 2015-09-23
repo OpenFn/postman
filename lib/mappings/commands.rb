@@ -14,6 +14,7 @@ class CreateMappingCommand
   attribute :id, String
   attribute :jolt_spec, Json
   attribute :destination_schema, Json
+  attribute :destination_configuration, Json
   attribute :title, String
 
   def assigned_attributes
@@ -27,6 +28,7 @@ class UpdateMappingCommand
   attribute :id, String
   attribute :jolt_spec, Json
   attribute :destination_schema, Json
+  attribute :destination_configuration, Json
   attribute :title, String
 
   def assigned_attributes
