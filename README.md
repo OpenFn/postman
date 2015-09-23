@@ -46,6 +46,25 @@ API
   - `406` Not valid.
   - `201` Success. Mapping was created.
 
+* `PATCH /mappings/:mappingID`
+  
+  Updates a mapping.
+
+  Example Body:
+
+  ```json
+  {
+    "title": "My Changed Mapping",
+    "jolt_spec": {a: 1, b: 2}
+  }
+  ```
+
+  **Responses**
+
+  - `404` Can't find the mapping.
+  - `406` Not valid.
+  - `202` Success. Mapping was updated.
+
 Setting up
 ----------
 

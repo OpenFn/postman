@@ -6,6 +6,7 @@ gem "pg"
 gem "roda"
 gem "puma"
 gem "faraday"
+gem "virtus"
 
 group :development, :test do
   gem "pry-byebug"
