@@ -55,7 +55,8 @@ API
   ```json
   {
     "title": "My Changed Mapping",
-    "jolt_spec": {a: 1, b: 2}
+    "jolt_spec": {a: 1, b: 2},
+    "destination_schema": {c: 1, d: 2}
   }
   ```
 

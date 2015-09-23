@@ -1,3 +1,4 @@
+require 'json'
 require 'virtus'
 
 class Json < Virtus::Attribute
@@ -11,7 +12,8 @@ class CreateMappingCommand
   include Virtus.model
 
   attribute :id, String
-  attribute :jolt_spec, Json, default: nil
+  attribute :jolt_spec, Json
+  attribute :destination_schema, Json
   attribute :title, String
 
   def assigned_attributes
@@ -23,7 +25,8 @@ class UpdateMappingCommand
   include Virtus.model
 
   attribute :id, String
-  attribute :jolt_spec, Json, default: nil
+  attribute :jolt_spec, Json
+  attribute :destination_schema, Json
   attribute :title, String
 
   def assigned_attributes
