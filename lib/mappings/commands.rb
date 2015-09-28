@@ -3,7 +3,8 @@ require 'virtus'
 
 class Json < Virtus::Attribute
   def coerce(value)
-    value.is_a?(::Hash) ? JSON.generate(value) : value
+    return if value.nil?
+    value.is_a?(String) ? value : JSON.generate(value)
   end
 end
 
