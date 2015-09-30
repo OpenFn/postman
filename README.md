@@ -31,6 +31,25 @@ API
   - `404` Mapping not found.
   - `201` Success. Submission was created.
 
+* `GET /receipts/:receiptID`
+  
+  Returns the body of a receipt.
+
+  **Responses**
+
+  - `200` OK.
+  - `404` Receipt not found.
+
+* `GET /receipts/:receiptID/transform`
+  
+  Returns the result of a Jolt Transform for a receipt.
+
+  **Responses**
+
+  - `200` OK.
+  - `400` The Jolt spec on the mapping was rejected by Jolt.
+  - `404` Receipt or Mapping not found.
+
 * `POST /mappings`
   
   Create a new Mapping
@@ -55,7 +74,12 @@ API
   ```json
   {
     "title": "My Changed Mapping",
-    "jolt_spec": {a: 1, b: 2},
+    "jolt_spec": [
+      {
+        "operation":"shift",
+        "spec":{...}
+      }
+    ],
     "destination_schema": {c: 1, d: 2}
   }
   ```
@@ -87,8 +111,9 @@ Setting up
 
 **ENV Variables**
 
-`ENV`          *default: 'development'*  
-`DATABASE_URL` *default: 'postgres://localhost/postman'*
+`ENV`               *default: 'development'*  
+`DATABASE_URL`      *default: 'postgres://localhost/postman'*  
+`JOLT_SERVICE_URL`  *default: 'http://jolt-api.dev/'*
 
 Running Tests
 -------------
