@@ -1,4 +1,4 @@
-class ReceiveReceiptCommand
+class ReceiveReceipt
   include Virtus::Model
 
   attribute :inbox_id, String
@@ -11,7 +11,7 @@ end
 # =================================
 
 
-class ReceiptCreatedEvent < Consequential::Event
+class ReceiptReceived < Consequential::Event
   attr_reader :inbox_id, :body, :id
 
   def initialize(id:, inbox_id:,body:)
@@ -32,7 +32,7 @@ class Receipt < Consequential::AggregateRoot
 
   def self.create(inbox_id:, body:)
     new.tap { |receipt|
-      receipt.apply ReceiptCreatedEvent.new({
+      receipt.apply ReceiptReceived.new({
         id: receipt.id,
         inbox_id: inbox_id,
         body: body
@@ -40,15 +40,16 @@ class Receipt < Consequential::AggregateRoot
     }
   end
 
-  on ReceiptCreatedEvent do |event|
+  on ReceiptReceived do |event|
     @inbox_id = event.inbox_id
     @body = event.body
+    @state = :received
   end
 
 end
 
-class ReceiveReceiptCommandHandler < Consequential::CommandHandler
-  on ReceiveReceiptCommand do |command|
+class ReceiveReceiptHandler < Consequential::CommandHandler
+  on ReceiveReceipt do |command|
     Receipt.create({ 
       inbox_id: command.inbox_id, body: command.body
     })

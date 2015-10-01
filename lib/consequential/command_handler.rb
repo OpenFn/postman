@@ -6,6 +6,10 @@ module Consequential
         CommandService.register(command_class, block)
       end
 
+      def with_aggregate(aggregate, &block)
+        yield aggregate
+      end
+
     end
   end
 end

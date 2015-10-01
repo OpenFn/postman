@@ -1,8 +1,11 @@
 require 'rack/test'
 require 'environment'
+require 'consequential/test'
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
+  config.include Consequential::Test::Helpers
+  config.include Consequential::Test::Matchers
 
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true

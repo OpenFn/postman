@@ -2,7 +2,7 @@ require 'securerandom'
 
 module Consequential
   
-  class AggregateRoot
+  class Aggregate
 
     attr_reader :id
 
@@ -33,4 +33,6 @@ module Consequential
     end
 
   end
+
+  class AggregateRoot < Aggregate; end
 end
