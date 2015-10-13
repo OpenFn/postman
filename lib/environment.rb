@@ -1,12 +1,18 @@
 require 'rubygems'
 require 'bundler'
+require 'logger'
 
-ENV['ENV'] ||= "development"
-ENV['DATABASE_URL']  ||= "postgres://localhost/postman"
+ENV['ENV']              ||= "development"
+ENV['DATABASE_URL']     ||= "postgres://localhost/postman"
 ENV['JOLT_SERVICE_URL'] ||= "http://jolt-api.dev/"
 
-Bundler.require(:default, :test)
+Log = Logger.new(STDOUT)
+Log.level = Logger::DEBUG
 
-Sequel.connect(ENV['DATABASE_URL'])
+Bundler.require(:default, ENV['ENV'])
+
+DB = Sequel.connect(ENV['DATABASE_URL'])
+DB.loggers << Log
+DB.extension :pg_json
 
 $:.unshift File.dirname(__FILE__)

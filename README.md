@@ -6,7 +6,7 @@ Message handler for OpenFn.
 API
 ---
 
-* `POST /inbox/:mappingID`
+* `POST /inbox/:inboxID`
   
   Saves a receipt for a given mapping.
 
@@ -31,64 +31,6 @@ API
   - `404` Mapping not found.
   - `200` Success. Receipt was created.
 
-* `GET /receipts/:receiptID`
-  
-  Returns the body of a receipt.
-
-  **Responses**
-
-  - `200` OK.
-  - `404` Receipt not found.
-
-* `GET /receipts/:receiptID/transform`
-  
-  Returns the result of a Jolt Transform for a receipt.
-
-  **Responses**
-
-  - `200` OK.
-  - `400` The Jolt spec on the mapping was rejected by Jolt.
-  - `404` Receipt or Mapping not found.
-
-* `POST /mappings`
-  
-  Create a new Mapping
-
-  Example Body:
-
-  ```json
-  { "title": "My First Mapping" }
-  ```
-
-  **Responses**
-
-  - `406` Not valid.
-  - `201` Success. Mapping was created.
-
-* `PATCH /mappings/:mappingID`
-  
-  Updates a mapping.
-
-  Example Body:
-
-  ```json
-  {
-    "title": "My Changed Mapping",
-    "jolt_spec": [
-      {
-        "operation":"shift",
-        "spec":{...}
-      }
-    ],
-    "destination_schema": {c: 1, d: 2}
-  }
-  ```
-
-  **Responses**
-
-  - `404` Can't find the mapping.
-  - `406` Not valid.
-  - `202` Success. Mapping was updated.
 
 Setting up
 ----------

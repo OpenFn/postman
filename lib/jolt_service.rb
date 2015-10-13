@@ -9,8 +9,10 @@ class JoltService
   end
 
   class << self
-    def shift(payload:)
-      API.post('/shift', payload).body
+    def shift(input:, specs:)
+      response = API.post('/shift', {input: input,specs: specs}.to_json)
+      raise Exception unless response.success?
+      JSON.parse(response.body)
     end
   end
 end

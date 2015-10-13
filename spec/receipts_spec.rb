@@ -1,6 +1,6 @@
 require 'receipts'
 
-describe Receipts do
+describe "Receipts", skip: "TEMPORARILY DEPRECATED" do
 
   def app
     described_class

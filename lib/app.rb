@@ -1,6 +1,5 @@
 require 'inbox'
 require 'receipts'
-require 'mappings'
 
 class App < Roda
 
@@ -11,11 +10,7 @@ class App < Roda
     end
 
     r.on "inbox" do 
-      r.run Inbox
-    end
-
-    r.on "mappings" do 
-      r.run Mappings
+      r.run InboxAPI
     end
 
   end
