@@ -1,6 +1,6 @@
 require 'inbox'
 
-describe Inbox do
+describe Inbox, skip: "TEMPORARILY DEPRECATED" do
 
   def app
     described_class
