@@ -29,7 +29,7 @@ API
   **Responses**
 
   - `404` Mapping not found.
-  - `201` Success. Submission was created.
+  - `200` Success. Receipt was created.
 
 * `GET /receipts/:receiptID`
   

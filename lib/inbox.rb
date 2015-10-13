@@ -16,7 +16,7 @@ class Inbox < Roda
             mapping_id: mapping_id,
             body: request.body.read
           })
-          response.status = 202
+          response.status = 200
 
           {
             "@id"=> (Pathname.new(request.base_url) + "receipts/#{receipt[:id]}")

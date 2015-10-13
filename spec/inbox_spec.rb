@@ -22,7 +22,7 @@ describe Inbox do
           body: body
         }).and_return receipt
         post "/#{mapping[:id]}", body
-        expect(last_response.status).to eql 202
+        expect(last_response.status).to eql 200
       end
       
     end
