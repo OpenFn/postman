@@ -11,7 +11,7 @@ class App < Roda
     end
 
     r.on "inbox" do 
-      r.run Inbox
+      r.run InboxAPI
     end
 
     r.on "mappings" do 
