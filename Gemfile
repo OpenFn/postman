@@ -7,6 +7,7 @@ gem "roda"
 gem "puma"
 gem "faraday"
 gem "virtus"
+gem "fn-salesforce", :git => 'openfn/fn-salesforce', :branch => 'update_object'
 
 group :development, :test do
   gem "pry-byebug"

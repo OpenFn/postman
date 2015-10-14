@@ -3,7 +3,7 @@ Sequel.migration do
 
   up {
     run <<-EOL
-      CREATE TABLE inboxes AS SELECT id FROM mappings;
+      CREATE TABLE inboxes AS SELECT id,title FROM mappings;
       ALTER TABLE "public"."inboxes" 
         ALTER COLUMN "id" SET DEFAULT gen_random_uuid();
     EOL

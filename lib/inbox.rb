@@ -1,5 +1,6 @@
 require 'receipts'
 require 'events'
+require 'submissions'
 require 'jolt_service'
 
 class InboxAPI < Roda
@@ -50,10 +51,15 @@ class InboxAPI < Roda
         #     - Submission Created
         Log.debug "Matched #{jobs.count} Jobs"
         submissions = jobs.collect { |job|
-          Log.debug "Transforming receipt, using '#{job.name}' jolt spec."
-          Log.debug JoltService.shift(input: JSON.parse(receipt.body), specs: job.jolt_spec)
-          Log.debug "Sending resulting payload to Salesforce."
+          submission = Submission::Attempt.new({
+            receipt: receipt,
+            job_role: job
+          })
+          submission.save
+          submission
         }
+
+        submissions.each { |submission| Submission::Processor.handle(submission) }
 
         # -> Submission Created
         #   * Process Submission
