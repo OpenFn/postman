@@ -31,6 +31,28 @@ API
   - `404` Mapping not found.
   - `200` Success. Receipt was created.
 
+* `GET /receipts/:receiptID`
+
+  Returns information about a specified receipt.
+
+  **Content-Type**
+
+  - `text/plain`
+  - `application/json` - *Not available yet*
+
+CLI
+---
+
+Postman ships with a CLI client to perform common tasks and message
+inspection tasks.
+
+**Viewing a receipt**
+
+  `postman receipt:show <UUID>`
+
+  Shows the receipt information, including which submissions have processed
+  it.
+
 
 Setting up
 ----------
