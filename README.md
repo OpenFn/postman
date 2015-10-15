@@ -46,12 +46,22 @@ CLI
 Postman ships with a CLI client to perform common tasks and message
 inspection tasks.
 
+By default it looks for a Postman installation at: `http://postman.dev`
+
+In order to change it prepend the command with: `HOST=http://myserver.com`
+
 **Viewing a receipt**
 
   `postman receipt:show <UUID>`
 
   Shows the receipt information, including which submissions have processed
   it.
+
+**Processing a receipt**
+
+  `postman receipt:process <UUID>`
+
+  Processes a receipt with any matching event definitions.
 
 
 Setting up

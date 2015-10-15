@@ -4,6 +4,7 @@ module Receipt
 
   class Record < Sequel::Model(:receipts)
     many_to_one :inbox, class: "Inbox"
+    one_to_many :submissions, key: :receipt_id , class: "Submission::Attempt"
   end
 
   class Matcher
@@ -13,7 +14,7 @@ module Receipt
         Log.debug "Finding Events for Inbox"
         triggers = Event::Definition.by_matched_criteria(receipt)
 
-        Log.debug "Found #{triggers.count} Events for Inbox##{inbox_id}"
+        Log.debug "Found #{triggers.count} Events for Inbox##{receipt.inbox_id}"
 
         jobs = triggers.map(&:job_roles).flatten
 

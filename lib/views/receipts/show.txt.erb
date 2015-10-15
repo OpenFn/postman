@@ -1,0 +1,13 @@
+ID:         <%= receipt.id %>
+Inbox:      <%= receipt.inbox_id %>
+Created at: <%= receipt.created_at %>
+
+=== Submissions
+
+<%= TablePrint::Printer.new(receipt.submissions, [
+  { success:    { display_name: "Success" } },
+  { "job_role.trigger.name":    { display_name: "Trigger" } },
+  { "job_role.name":    { display_name: "Job Role" } },
+  { created_at: {display_name: "Created At"} }
+]).table_print %>
+
