@@ -1,5 +1,5 @@
 GIT
-  remote: openfn/fn-salesforce
+  remote: git://github.com/openfn/fn-salesforce.git
   revision: 11db5f0607700d3a1cb440c9f8b9a61e82886342
   branch: update_object
   specs:
