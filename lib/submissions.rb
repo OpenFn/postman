@@ -1,3 +1,6 @@
+require 'jolt_service'
+require 'receipts'
+
 module Submission
   class Attempt < Sequel::Model(:submissions)
     many_to_one :receipt, class: "Receipt::Record"

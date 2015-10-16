@@ -21,9 +21,9 @@ class App < Roda
             r.is "process" do
 
               r.on accept: 'text/plain' do
-                Receipt::Matcher.handle(@receipt)
+                Receipt::Match.new.async.perform(@receipt)
                 response[ 'Content-Type' ] = "text/plain"
-                render(inline: 'OK')
+                render(inline: 'Queued for Matching')
               end
 
             end

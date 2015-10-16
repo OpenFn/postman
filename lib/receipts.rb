@@ -7,39 +7,34 @@ module Receipt
     one_to_many :submissions, key: :receipt_id , class: "Submission::Attempt"
   end
 
-  class Matcher
-    class << self
-      def handle(receipt)
-        Log.debug "Match Receipt"
-        Log.debug "Finding Events for Inbox"
-        triggers = Event::Definition.by_matched_criteria(receipt)
+  class Match
+    include SuckerPunch::Job
 
-        Log.debug "Found #{triggers.count} Events for Inbox##{receipt.inbox_id}"
+    def perform(receipt)
 
-        jobs = triggers.map(&:job_roles).flatten
+      Log.debug "Match Receipt"
+      Log.debug "Finding Events for Inbox"
+      triggers = Event::Definition.by_matched_criteria(receipt)
 
-        # -> Receipt Matched
-        #   * Create Submission
-        #     - Submission Created
-        Log.debug "Matched #{jobs.count} Jobs"
-        submissions = jobs.collect { |job|
-          submission = Submission::Attempt.new({
-            receipt: receipt,
-            job_role: job
-          })
-          submission.save
-          submission
-        }
+      Log.debug "Found #{triggers.count} Events for Inbox##{receipt.inbox_id}"
 
-        submissions.each { |submission| Submission::Processor.handle(submission) }
+      jobs = triggers.map(&:job_roles).flatten
 
-        # -> Submission Created
-        #   * Process Submission
-        #     | Execute Steps
-        #     - Submission Processed
-        #     - Submission Failed Processing
+      # -> Receipt Matched
+      #   * Create Submission
+      #     - Submission Created
+      Log.debug "Matched #{jobs.count} Jobs"
+      submissions = jobs.collect { |job|
+        submission = Submission::Attempt.new({
+          receipt: receipt,
+          job_role: job
+        })
+        submission.save
+        submission
+      }
 
-      end
+      submissions.each { |submission| Submission::Processor.handle(submission) }
+
     end
   end
 

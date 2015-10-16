@@ -1,8 +1,3 @@
-require 'receipts'
-require 'events'
-require 'submissions'
-require 'jolt_service'
-
 class InboxAPI < Roda
 
   route do |r|
@@ -22,7 +17,7 @@ class InboxAPI < Roda
           #     - Receipt Stored
 
           Log.debug "Receipt Arrived"
-          @inbox.add_receipt(body: request.body.read)
+          receipt = @inbox.add_receipt(body: request.body.read)
 
           # -> Receipt Stored
           #   * Match Receipt
@@ -32,6 +27,11 @@ class InboxAPI < Roda
           #     - Receipt Not Matched
 
           Log.debug "Receipt Stored"
+
+          if @inbox.autoprocess
+            Receipt::Match.new.async.perform(receipt)
+            Log.info "Receipt (#{receipt.id}) queued for matching."
+          end
 
           response.status = 200
 
