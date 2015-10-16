@@ -92,8 +92,10 @@ class App < Roda
           r.patch do
 
             @inbox.update_fields(params, ["autoprocess"], missing: :skip)
-
-            response.status = 200
+            r.on accept: 'text/plain' do
+              response[ 'Content-Type' ] = "text/plain"
+              render(inline: "Inbox updated")
+            end
           end
 
         end

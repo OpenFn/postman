@@ -31,6 +31,11 @@ API
   - `404` Mapping not found.
   - `200` Success. Receipt was created.
 
+* `PATCH /inbox/:inboxID`
+  
+  Changes an inbox's configuration.
+
+
 * `GET /receipts/:receiptID`
 
   Returns information about a specified receipt.
@@ -68,6 +73,11 @@ In order to change it prepend the command with: `HOST=http://myserver.com`
   `postman submission:show <UUID>`
 
   Shows the submission information.
+
+**Enabling/Disabling Autoprocessing for an Inbox**
+
+  `postman inbox:autoprocess:on <UUID>`
+  `postman inbox:autoprocess:off <UUID>`
 
 
 Setting up
