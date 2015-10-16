@@ -63,6 +63,12 @@ In order to change it prepend the command with: `HOST=http://myserver.com`
 
   Processes a receipt with any matching event definitions.
 
+**Viewing a submission**
+
+  `postman submission:show <UUID>`
+
+  Shows the submission information.
+
 
 Setting up
 ----------

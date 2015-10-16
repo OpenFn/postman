@@ -20,9 +20,11 @@ module Postman
 
         case command
         when "receipt:show"
-          show
+          receipt_show
         when "receipt:process"
-          process
+          receipt_process
+        when "submission:show"
+          submission_show
         else
           raise "Unrecognized command."
         end
@@ -37,7 +39,7 @@ module Postman
 
     private
 
-    def show
+    def receipt_show
       id = @arguments.first
 
       if id
@@ -55,7 +57,7 @@ module Postman
 
     end
 
-    def process
+    def receipt_process
       id = @arguments.first
 
       if id
@@ -74,6 +76,24 @@ module Postman
         raise "Please provide an ID for a receipt."
       end
 
+
+    end
+
+    def submission_show
+      id = @arguments.first
+
+      if id
+
+        conn = Faraday.new(url: @host) do |faraday|
+          faraday.headers["Accept"] = "text/plain"
+          faraday.adapter  Faraday.default_adapter
+        end
+
+        response = conn.get "/submissions/#{id}"
+
+        raise "Receipt not found." if response.status == 404
+        puts response.body
+      end
 
     end
 

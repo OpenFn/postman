@@ -1,0 +1,12 @@
+ID:          <%= submission.id %>
+Created At:  <%= submission.created_at %>
+Started At:  <%= submission.started_at %>
+Finished At: <%= submission.finished_at %>
+
+Success:     <%= submission.success %>
+
+=== Log
+
+<% submission.log.each do |line| %>
+<%= line %>
+<% end %>

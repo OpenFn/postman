@@ -5,6 +5,7 @@ Created at: <%= receipt.created_at %>
 === Submissions
 
 <%= TablePrint::Printer.new(receipt.submissions, [
+  { id: { width: 36 } },
   { success:    { display_name: "Success" } },
   { "job_role.trigger.name":    { display_name: "Trigger" } },
   { "job_role.name":    { display_name: "Job Role" } },

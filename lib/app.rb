@@ -1,5 +1,6 @@
 require 'inbox'
 require 'receipts'
+require 'submissions'
 
 class App < Roda
 
@@ -16,6 +17,7 @@ class App < Roda
         r.on !!@receipt do
 
           r.post do
+            # POST /receipts/:id/process
             r.is "process" do
 
               r.on accept: 'text/plain' do
@@ -28,11 +30,28 @@ class App < Roda
           end
 
           r.get do
+            # GET /receipts/:id
             r.on accept: 'text/plain' do
               response[ 'Content-Type' ] = "text/plain"
-              render('receipts/show.txt', locals: {receipt: @receipt})
+              render('receipts/show.txt', locals: { receipt: @receipt })
             end
           end
+        end
+      end
+    end
+
+    r.on "submissions" do
+      r.on :uuid do |uuid|
+
+        @submission = Submission::Attempt[uuid]
+
+        r.on !!@submission do
+          # GET /submissions/:uuid
+          r.on accept: 'text/plain' do
+            response[ 'Content-Type' ] = "text/plain"
+            render('submissions/show.txt', locals: { submission: @submission })
+          end
+
         end
       end
     end
