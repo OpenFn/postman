@@ -1,16 +1,14 @@
-require 'inbox'
-require 'receipts'
-require 'submissions'
-
 class App < Roda
 
   plugin :render, views: 'lib/views'
   plugin :header_matchers
+  plugin :all_verbs
+  plugin :indifferent_params
 
   route do |r|
 
     r.on "receipts" do 
-      
+
       r.on :id do |id|
         @receipt = Receipt::Record[id]
 
@@ -55,9 +53,53 @@ class App < Roda
         end
       end
     end
+  end
 
-    r.on "inbox" do 
-      r.run InboxAPI
+  route do |r|
+
+    r.on "inbox" do
+      response[ 'Content-Type' ] = "application/json"
+
+      r.on :inbox_id do |inbox_id|
+
+        @inbox = Inbox.find(id: inbox_id)
+
+        r.on !!@inbox do
+
+          # POST /inbox/:inbox_id
+          r.post do
+
+            Log.debug "Receipt Arrived"
+
+            receipt = @inbox.add_receipt(body: request.body.read)
+
+            Log.debug "Receipt Stored"
+
+            if @inbox.autoprocess
+              Receipt::Match.new.async.perform(receipt)
+              Log.info "Receipt (#{receipt.id}) queued for matching."
+            end
+
+            response.status = 200
+
+            # TODO: return the receipt id
+            # {
+            #   "@id"=> (Pathname.new(request.base_url) + "receipts/#{receipt[:id]}")
+            # }.to_json
+          end
+
+          # PATCH /inbox/:inbox_id?autoprocess=<true|false>false
+          r.patch do
+
+            @inbox.update_fields(params, ["autoprocess"], missing: :skip)
+
+            response.status = 200
+          end
+
+        end
+
+      end
+
     end
 
   end
