@@ -20,82 +20,94 @@ module Postman
 
         case command
         when "receipt:show"
-          receipt_show
+          ReceiptCommand.new(@arguments, @host).show
         when "receipt:process"
-          receipt_process
+          ReceiptCommand.new(@arguments, @host).process
         when "submission:show"
-          submission_show
+          SubmissionCommand.new(@arguments, @host).show
         else
           raise "Unrecognized command."
         end
-          
+
       rescue Exception => e
         puts e
+        puts e.backtrace.join("\n")
         exit 1
       end
 
       exit 0
     end
 
-    private
+    class ReceiptCommand
+      def initialize(arguments, host)
+        @host = host
+        @arguments = arguments
+      end
 
-    def receipt_show
-      id = @arguments.first
+      def show
+        id = @arguments.first
 
-      if id
+        if id
 
-        conn = Faraday.new(url: @host) do |faraday|
-          faraday.headers["Accept"] = "text/plain"
-          faraday.adapter  Faraday.default_adapter
+          conn = Faraday.new(url: @host) do |faraday|
+            faraday.headers["Accept"] = "text/plain"
+            faraday.adapter  Faraday.default_adapter
+          end
+
+          response = conn.get "/receipts/#{id}"
+
+          raise "Receipt not found." if response.status == 404
+          puts response.body
+        end
+      end
+
+      def process
+
+        id = @arguments.first
+
+        if id
+
+          conn = Faraday.new(url: @host) do |faraday|
+            faraday.headers["Accept"] = "text/plain"
+            faraday.adapter  Faraday.default_adapter
+          end
+
+          response = conn.post "/receipts/#{id}/process"
+
+          raise "Receipt not found." if response.status == 404
+          puts response.body
+
+        else
+          raise "Please provide an ID for a receipt."
         end
 
-        response = conn.get "/receipts/#{id}"
+      end
+    end
 
-        raise "Receipt not found." if response.status == 404
-        puts response.body
+    class SubmissionCommand
+      def initialize(arguments, host)
+        @host = host
+        @arguments = arguments
+      end
+
+      def show
+        id = @arguments.first
+
+        if id
+
+          conn = Faraday.new(url: @host) do |faraday|
+            faraday.headers["Accept"] = "text/plain"
+            faraday.adapter  Faraday.default_adapter
+          end
+
+          response = conn.get "/submissions/#{id}"
+
+          raise "Receipt not found." if response.status == 404
+          puts response.body
+        end
+
       end
 
     end
-
-    def receipt_process
-      id = @arguments.first
-
-      if id
-
-        conn = Faraday.new(url: @host) do |faraday|
-          faraday.headers["Accept"] = "text/plain"
-          faraday.adapter  Faraday.default_adapter
-        end
-
-        response = conn.post "/receipts/#{id}/process"
-
-        raise "Receipt not found." if response.status == 404
-        puts response.body
-
-      else
-        raise "Please provide an ID for a receipt."
-      end
-
-
-    end
-
-    def submission_show
-      id = @arguments.first
-
-      if id
-
-        conn = Faraday.new(url: @host) do |faraday|
-          faraday.headers["Accept"] = "text/plain"
-          faraday.adapter  Faraday.default_adapter
-        end
-
-        response = conn.get "/submissions/#{id}"
-
-        raise "Receipt not found." if response.status == 404
-        puts response.body
-      end
-
-    end
-
   end
 end
