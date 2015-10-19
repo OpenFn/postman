@@ -10,7 +10,10 @@ class App < Roda
     r.on "receipts" do 
 
       r.on :id do |id|
+        puts "hello"
         @receipt = Receipt::Record[id]
+
+        puts @receipt.inspect
 
         r.on !!@receipt do
 
@@ -53,9 +56,6 @@ class App < Roda
         end
       end
     end
-  end
-
-  route do |r|
 
     r.on "inbox" do
       response[ 'Content-Type' ] = "application/json"
@@ -104,6 +104,10 @@ class App < Roda
 
     end
 
+
+
   end
+
+
 
 end
