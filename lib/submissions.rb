@@ -36,12 +36,20 @@ module Submission
           job = submission.job_role
           receipt = submission.receipt
 
-          submission_logger.info "Transforming receipt, using '#{job.name}' jolt spec."
-          destination_payload = JoltService.shift(input: JSON.parse(receipt.body), specs: job.jolt_spec)
+          transform_is_plan = JsonPath.on(job.jolt_spec,'..meta.outputType').any? { |type| type == 'plan' } 
 
-          submission_logger.info "Planning execution for Salesforce."
-          plan = Fn::Salesforce.prepare(job.schema.to_h, destination_payload)
-          submission_logger.info "Sending resulting payload to Salesforce."
+          submission_logger.info "Transforming receipt, using '#{job.name}' jolt spec."
+          transform_result = JoltService.shift(input: JSON.parse(receipt.body), specs: job.jolt_spec)
+
+          plan = if transform_is_plan
+            submission_logger.info "Jolt spec returned execution plan."
+            transform_result
+          else
+            submission_logger.info "Planning execution for Salesforce."
+            Fn::Salesforce.prepare(job.schema.to_h, transform_result)
+          end
+
+          submission_logger.info "Sending execution plan to Salesforce."
 
           attributes = job.configuration.to_h
           credentials = Hashie::Mash.new( {
