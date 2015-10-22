@@ -55,29 +55,27 @@ By default it looks for a Postman installation at: `http://postman.dev`
 
 In order to change it prepend the command with: `HOST=http://myserver.com`
 
-**Viewing a receipt**
+**Synopsis**
 
-  `postman receipt:show <UUID>`
+`postman <command> [arguments]`
 
+**Commands**
+
+- `receipt:show <UUID>`  
   Shows the receipt information, including which submissions have processed
   it.
 
-**Processing a receipt**
-
-  `postman receipt:process <UUID>`
-
+- `receipt:process <UUID>`  
   Processes a receipt with any matching event definitions.
 
-**Viewing a submission**
-
-  `postman submission:show <UUID>`
-
+- `submission:show <UUID>`  
   Shows the submission information.
 
-**Enabling/Disabling Autoprocessing for an Inbox**
+- `job:show <UUID>`  
+  Shows basic information about a job, it's trigger and submissions.
 
-  `postman inbox:autoprocess:on <UUID>`
-  `postman inbox:autoprocess:off <UUID>`
+- `inbox:autoprocess:<on|off> <UUID>`  
+  Toggles autoprocess for an Inbox
 
 
 Setting up

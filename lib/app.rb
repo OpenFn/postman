@@ -57,6 +57,21 @@ class App < Roda
       end
     end
 
+    r.on "job_roles" do
+      r.on :uuid do |uuid|
+        @job_role = Job::Role[uuid]
+
+        r.on !!@job_role do
+
+          # GET /job_role/:uuid
+          r.on accept: 'text/plain' do
+            response[ 'Content-Type' ] = "text/plain"
+            render('job_roles/show.txt', locals: { role: @job_role })
+          end
+        end
+      end
+    end
+
     r.on "inbox" do
       response[ 'Content-Type' ] = "application/json"
 

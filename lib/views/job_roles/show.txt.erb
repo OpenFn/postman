@@ -1,0 +1,21 @@
+ID:         <%= role.id %>
+Name:       <%= role.inbox.title %>/<%= role.name %>
+Inbox:      <%= role.inbox_id %>
+Created at: <%= role.created_at %>
+
+=== Trigger
+
+Name:       <%= role.trigger.name %>
+Criteria:   <%= role.trigger.criteria %>
+Matches:    <%= 
+  Receipt::Record.
+    eager_graph(inbox: :event_definitions).
+    where(:event_definitions__id => role.trigger_id).
+    where{
+      body.cast(:jsonb).pg_jsonb.contains(:event_definitions__criteria)
+    }.count
+%> receipts
+
+=== Submissions
+
+#TODO

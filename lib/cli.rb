@@ -19,6 +19,8 @@ module Postman
       begin
 
         case command
+        when "job:show"
+          JobCommand.new(@arguments, @host).show
         when "receipt:show"
           ReceiptCommand.new(@arguments, @host).show
         when "receipt:process"
@@ -97,6 +99,36 @@ module Postman
         if id
 
           response = connection.get "/submissions/#{id}"
+
+          raise "Receipt not found." if response.status == 404
+          puts response.body
+        end
+
+      end
+
+      private
+
+      def connection
+        Faraday.new(url: @host) do |faraday|
+          faraday.headers["Accept"] = "text/plain"
+          faraday.adapter  Faraday.default_adapter
+        end
+      end
+
+    end
+
+    class JobCommand
+      def initialize(arguments, host)
+        @host = host
+        @arguments = arguments
+      end
+
+      def show
+        id = @arguments.first
+
+        if id
+
+          response = connection.get "/job_roles/#{id}"
 
           raise "Receipt not found." if response.status == 404
           puts response.body
