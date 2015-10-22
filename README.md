@@ -72,7 +72,10 @@ In order to change it prepend the command with: `HOST=http://myserver.com`
   Shows the submission information.
 
 - `job:show <UUID>`  
-  Shows basic information about a job, it's trigger and submissions.
+  Shows basic information about a job, and trigger.
+
+- `job:submissions <UUID>`  
+  Shows basic information about a job, and submissions.
 
 - `inbox:autoprocess:<on|off> <UUID>`  
   Toggles autoprocess for an Inbox

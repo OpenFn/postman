@@ -62,11 +62,26 @@ class App < Roda
         @job_role = Job::Role[uuid]
 
         r.on !!@job_role do
-
-          # GET /job_role/:uuid
           r.on accept: 'text/plain' do
             response[ 'Content-Type' ] = "text/plain"
-            render('job_roles/show.txt', locals: { role: @job_role })
+            
+            r.get do
+              # GET /job_role/:uuid/submissions
+              r.is "submissions" do
+                submissions = Submission::Attempt.select(
+                  :id, :receipt_id, :success, :started_at, :created_at, 
+                  Sequel.as(Sequel.expr(:finished_at) - :started_at, :running_time)
+                ).where(job_role_id: @job_role.id)
+                
+                render('job_roles/submissions.txt', locals: {
+                  role: @job_role,
+                  submissions: submissions
+                })
+              end
+
+              # GET /job_role/:uuid
+              render('job_roles/show.txt', locals: { role: @job_role })
+            end
           end
         end
       end

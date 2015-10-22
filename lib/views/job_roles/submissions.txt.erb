@@ -1,0 +1,18 @@
+ID:         <%= role.id %>
+Name:       <%= role.inbox.title %>/<%= role.name %>
+Inbox:      <%= role.inbox_id %>
+Created at: <%= role.created_at %>
+
+=== Submissions
+
+Count:      <%= submissions.count %>
+
+<%= TablePrint::Printer.new(submissions.map(&:values), [
+  { receipt_id: { width: 36, display_name: "Receipt" } },
+  { id: { width: 36 } },
+  { success:    { display_name: "Success" } },
+  { created_at:    { display_name: "Created" } },
+  { started_at:    { display_name: "Started" } },
+  { running_time: {display_name: "Running Time"} }
+]).table_print %>
+

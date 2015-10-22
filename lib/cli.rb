@@ -21,6 +21,8 @@ module Postman
         case command
         when "job:show"
           JobCommand.new(@arguments, @host).show
+        when "job:submissions"
+          JobCommand.new(@arguments, @host).submissions
         when "receipt:show"
           ReceiptCommand.new(@arguments, @host).show
         when "receipt:process"
@@ -130,7 +132,20 @@ module Postman
 
           response = connection.get "/job_roles/#{id}"
 
-          raise "Receipt not found." if response.status == 404
+          raise "Job Role not found." if response.status == 404
+          puts response.body
+        end
+
+      end
+
+      def submissions
+        id = @arguments.first
+
+        if id
+
+          response = connection.get "/job_roles/#{id}/submissions"
+
+          raise "Job Role not found." if response.status == 404
           puts response.body
         end
 

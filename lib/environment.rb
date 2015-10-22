@@ -17,6 +17,7 @@ Bundler.require(:default, ENV['ENV'])
 DB = Sequel.connect(ENV['DATABASE_URL'])
 DB.loggers << Log
 DB.extension :pg_json
+Sequel.extension :pg_json_ops
 
 $:.unshift File.dirname(__FILE__)
 
