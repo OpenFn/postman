@@ -11,7 +11,7 @@ gem "puma"
 gem "faraday"
 gem "virtus"
 gem "pry"
-gem "fn-salesforce", github: 'openfn/fn-salesforce', :branch => 'update_object'
+gem "fn-salesforce"
 
 group :development, :test do
   gem "pry-byebug"
