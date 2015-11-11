@@ -36,7 +36,7 @@ module Submission
           job = submission.job_role
           receipt = submission.receipt
 
-          transform_is_plan = JsonPath.on(job.jolt_spec,'..meta.outputType').any? { |type| type == 'plan' } 
+          transform_is_plan = JsonPath.on(job.jolt_spec.to_json,'..meta.outputType').any? { |type| type == 'plan' } 
 
           submission_logger.info "Transforming receipt, using '#{job.name}' jolt spec."
           transform_result = JoltService.shift(input: JSON.parse(receipt.body), specs: job.jolt_spec)
