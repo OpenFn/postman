@@ -2,7 +2,7 @@ require 'faraday'
 require 'json'
 
 class JoltService
-  API = Faraday.new(:url => ENV['JOLT_SERVICE_URL']) do |faraday|
+  API = Faraday.new(:url => ENV['JOLT_SERVICE_URL'], request: {timeout: 30}) do |faraday|
     faraday.request  :url_encoded  
     faraday.response :logger                  # log requests to STDOUT
     faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
